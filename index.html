@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parıltı | Premium Study Hub</title>
+    <meta name="description" content="Ders notlarınızı düzenleyin, sıralayın ve saklayın.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fa-solid fa-graduation-cap logo-icon"></i>
+                <span class="logo-text">Parıltı</span>
+            </div>
+
+            <nav class="main-nav">
+                <button class="nav-item active" data-filter="all">
+                    <i class="fa-solid fa-layer-group"></i> Tüm Notlar
+                </button>
+                <button class="nav-item" data-filter="favorites">
+                    <i class="fa-solid fa-heart"></i> Favoriler
+                </button>
+                <button class="nav-item" data-filter="recent">
+                    <i class="fa-solid fa-clock"></i> Son Eklenenler
+                </button>
+            </nav>
+
+            <div class="add-note-wrapper">
+                <button id="addNoteBtn" class="btn btn-primary btn-large">
+                    <i class="fa-solid fa-plus"></i> Yeni Not Ekle
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Notlarda ara...">
+                </div>
+
+                <div class="sort-wrapper">
+                    <span class="sort-label">Sıralama:</span>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="date-desc">En Yeni</option>
+                        <option value="date-asc">En Eski</option>
+                        <option value="title-asc">A-Z</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <div class="notes-header">
+                    <h1>Ders Notlarım</h1>
+                    <span class="note-count" id="noteCount">0 not</span>
+                </div>
+
+                <div id="notesGrid" class="notes-grid">
+                    <!-- Javascript ile notlar buraya eklenecek -->
+                    <!-- Empty State Example 
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <p>Henüz hiç not eklemediniz.</p>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Adding/Editing Notes -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h2 id="modalTitle">Yeni Not Oluştur</h2>
+                <button id="closeModalBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="noteForm">
+                <div class="form-group">
+                    <label for="noteTitle">Başlık</label>
+                    <input type="text" id="noteTitle" required placeholder="Örn: Matematik Türev Notları">
+                </div>
+
+                <div class="form-group">
+                    <label for="noteCourse">Ders Adı</label>
+                    <input type="text" id="noteCourse" required placeholder="Örn: Matematik 101">
+                </div>
+
+                <div class="form-group">
+                    <label for="noteTags">Etiketler (Virgül ile ayırın)</label>
+                    <input type="text" id="noteTags" placeholder="vize, final, önemli">
+                </div>
+
+                <div class="form-group">
+                    <label>Görünürlük</label>
+                    <div class="visibility-options">
+                        <label class="radio-label">
+                            <input type="radio" name="noteVisibility" value="private" checked>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text"><i class="fa-solid fa-lock"></i> Sadece Ben (Private)</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="noteVisibility" value="public">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text"><i class="fa-solid fa-globe"></i> Herkes (Public)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="noteContent">Not İçeriği</label>
+                    <textarea id="noteContent" rows="5" placeholder="Notlarınızı buraya yazın..."></textarea>
+                </div>
+
+                <!-- Simple File Upload Simulation -->
+                <div class="form-group">
+                    <label class="file-upload-label">
+                        <input type="file" id="noteFile" accept="image/*">
+                        <span class="upload-text"><i class="fa-solid fa-cloud-arrow-up"></i> Görsel Ekle
+                            (Opsiyonel)</span>
+                    </label>
+                    <div id="filePreview" class="file-preview"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content glass-effect auth-content">
+            <div class="modal-header">
+                <h2>Hoş Geldiniz! 👋</h2>
+            </div>
+            <p class="auth-desc">Notlarınızı kaydetmek ve düzenlemek için lütfen giriş yapın.</p>
+            <form id="authForm">
+                <div class="form-group">
+                    <label for="userName">Adınız</label>
+                    <input type="text" id="userName" required placeholder="Adınız">
+                </div>
+                <div class="form-group">
+                    <label for="userSurname">Soyadınız</label>
+                    <input type="text" id="userSurname" required placeholder="Soyadınız">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">E-posta Adresi</label>
+                    <input type="email" id="userEmail" required placeholder="ornek@email.com">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-full">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
